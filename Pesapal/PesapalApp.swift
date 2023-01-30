@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct PesapalApp: App {
+    @StateObject var server: Server = Server()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(server)
         }
     }
 }
