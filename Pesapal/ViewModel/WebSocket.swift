@@ -31,20 +31,21 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
         websocket?.receive(completionHandler: { [weak self] result in
             switch result {
                 case let .success(raw):
-                    self?.on(msg: raw)
+                    self?.onReceive(raw)
                     if self?.keepListening == true {
                         self?.listen()
                     }
                 case let .failure(err):
                     print("WebSocket Failure: \(err.localizedDescription)")
                     self?.websocket = nil
+                    self?.isConnected = false
                     // try self?.connect()
             }
         })
     }
     
-    private func on(msg: URLSessionWebSocketTask.Message) {
-        switch msg {
+    private func onReceive(_ rawMessage: URLSessionWebSocketTask.Message) {
+        switch rawMessage {
             case let .string(str):
                 recievedString(str)
             case .data:

@@ -7,6 +7,7 @@
 
 import Foundation
 import Swifter
+import SwiftUI
 
 final class Server: ObservableObject {
     let server: HttpServer = HttpServer()
@@ -54,15 +55,25 @@ final class Server: ObservableObject {
         Task(priority: .background) {
             configureRoutes()
             do {
-                try server.start(8080)
+                try server.start()
                 await MainActor.run {
-                    isRunning = server.operating
+                    withAnimation(.easeInOut) {
+                        isRunning = server.operating
+                    }
                 }
                 print("Server has started on port: \(try server.port())")
             } catch {
                 print("Failed to Start Server:", error.localizedDescription)
             }
         }
+    }
+    
+    func stop() {
+        server.stop()
+        withAnimation(.easeInOut) {
+            isRunning = server.operating
+        }
+        print("Server is no longer running")
     }
     
     private func processIncomingText(session: WebSocketSession, text: String) {

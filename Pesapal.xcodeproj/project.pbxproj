@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C22A47D29891C800099BB14 /* Problem3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C22A47C29891C800099BB14 /* Problem3.swift */; };
+		3C22A47F29891DB40099BB14 /* Problem4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C22A47E29891DB40099BB14 /* Problem4.swift */; };
 		3C4E830D2988300300098BBA /* PesapalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E830C2988300300098BBA /* PesapalApp.swift */; };
 		3C4E830F2988300300098BBA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E830E2988300300098BBA /* ContentView.swift */; };
 		3C4E83112988300800098BBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C4E83102988300800098BBA /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C22A47C29891C800099BB14 /* Problem3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem3.swift; sourceTree = "<group>"; };
+		3C22A47E29891DB40099BB14 /* Problem4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem4.swift; sourceTree = "<group>"; };
 		3C4E83092988300300098BBA /* Pesapal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pesapal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C4E830C2988300300098BBA /* PesapalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PesapalApp.swift; sourceTree = "<group>"; };
 		3C4E830E2988300300098BBA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				3C4E830E2988300300098BBA /* ContentView.swift */,
+				3C22A47C29891C800099BB14 /* Problem3.swift */,
+				3C22A47E29891DB40099BB14 /* Problem4.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C4E83452988476D00098BBA /* AppService.swift in Sources */,
+				3C22A47D29891C800099BB14 /* Problem3.swift in Sources */,
 				3C4E830F2988300300098BBA /* ContentView.swift in Sources */,
 				3C4E83432988469900098BBA /* WebSocket.swift in Sources */,
 				3C4E835029885C4900098BBA /* WebSocketSession + Extensions .swift in Sources */,
@@ -329,6 +336,7 @@
 				3C4E833E298831B900098BBA /* Server.swift in Sources */,
 				3C4E834E2988523100098BBA /* ActiveSession.swift in Sources */,
 				3C4E830D2988300300098BBA /* PesapalApp.swift in Sources */,
+				3C22A47F29891DB40099BB14 /* Problem4.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
