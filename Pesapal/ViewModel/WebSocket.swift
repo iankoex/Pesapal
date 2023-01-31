@@ -17,7 +17,9 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     @Published var message: Message? = nil
     
     func connect() async {
-        let resourceURL = URL(string: "http://localhost:8080/ws")!
+        guard let resourceURL = URL(string: "http://localhost:8080/socket") else {
+            return
+        }
         let urlRequest = URLRequest(url: resourceURL)
         websocket = session.webSocketTask(with: urlRequest)
         listen()
@@ -53,23 +55,25 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     }
     
     private func recievedString(_ str: String) {
-        let data = str.data(using: .utf8)
-        guard let data = data else {
+        guard let data = str.data(using: .utf8) else {
             return
         }
         do {
             let msg = try self.decoder.decode(Message.self, from: data)
             self.message = msg
-            print("Recived", msg.participant.rank, msg.type)
         } catch {
             print("WebSocket: \(error.localizedDescription)")
         }
     }
     
     func send(_ msg: Message) async {
+        guard
+            let data = try? encoder.encode(msg),
+            let msgString = String(data: data, encoding: .utf8)
+        else {
+            return
+        }
         do {
-            let data = try encoder.encode(msg)
-            let msgString = data.base64EncodedString()
             try await websocket?.send(.string(msgString))
         } catch {
             print("WebSocket Send Error: \(error.localizedDescription)")

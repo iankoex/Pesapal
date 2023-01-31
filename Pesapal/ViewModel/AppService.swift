@@ -12,6 +12,9 @@ import SwiftUI
 class AppService: ObservableObject {
     @Published private var webSocket: WebSocket = WebSocket()
     @Published var participant: Participant?
+    @Published var commandMessage: String = ""
+    @Published var isShowingCommand: Bool = false
+    private var timer: Timer?
     private var cancellables: [AnyCancellable] = []
     
     init() {
@@ -22,10 +25,19 @@ class AppService: ObservableObject {
         }
         .store(in: &cancellables)
         
-        webSocket.$message.sink { msg in
-            self.processIncommingMessage(msg)
-        }
-        .store(in: &cancellables)
+        webSocket.$message
+            .dropFirst()
+            .sink { msg in
+                self.processIncommingMessage(msg)
+            }
+            .store(in: &cancellables)
+        
+        $isShowingCommand
+            .dropFirst()
+            .sink { _ in
+                self.scheduleTimer()
+            }
+            .store(in: &cancellables)
     }
     
     var isConnected: Bool {
@@ -49,7 +61,10 @@ class AppService: ObservableObject {
     
     func sendCommand() {
         Task {
-            await webSocket.send(Message(participant: Participant(rank: 1000), type: .command))
+            guard let part = participant else {
+                return
+            }
+            await webSocket.send(Message(participant: part, type: .command))
         }
     }
     
@@ -59,13 +74,35 @@ class AppService: ObservableObject {
         }
         switch msg.type {
             case .command:
-                print("Command")
+                showCommand(msg)
             case .update:
                 DispatchQueue.main.async {
                     withAnimation(.easeInOut) {
                         self.participant = msg.participant
                     }
                 }
+        }
+    }
+    
+    private func showCommand(_ msg: Message) {
+        let commandStr = "\(msg.participant.name) with rank \(msg.participant.rank)"
+        DispatchQueue.main.async {
+            withAnimation(.easeInOut) {
+                self.commandMessage = commandStr
+                self.isShowingCommand = true
+            }
+        }
+    }
+    
+    private func scheduleTimer() {
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+            DispatchQueue.main.async {
+                withAnimation(.easeInOut) {
+                    self.commandMessage = ""
+                    self.isShowingCommand = false
+                }
+            }
         }
     }
 }

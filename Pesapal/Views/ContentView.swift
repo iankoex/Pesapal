@@ -36,7 +36,9 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .foregroundColor(.accentColor)
                 Text("Server is running on port: \(server.port)")
-                Link("Test on Browser", destination: URL(string: "http://localhost:8080")!)
+                if let serverURL = URL(string: "http://localhost:8080") {
+                    Link("Test on Browser", destination: serverURL)
+                }
             } else {
                 Button(action: server.start) {
                     Text("Start Server")
@@ -74,6 +76,11 @@ struct ContentView: View {
                 Text("Send Command")
             }
             .disabled(!appService.isConnected)
+            
+            if appService.isShowingCommand {
+                Text("Excecuting Command from")
+                Text(appService.commandMessage)
+            }
         }
     }
 }

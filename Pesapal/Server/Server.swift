@@ -19,9 +19,9 @@ final class Server: ObservableObject {
         self.start()
     }
     
-    var port: Int {
+    var port: String {
         let port = try? server.port()
-        return port ?? 0
+        return "\(port ?? 0)"
     }
     
     private func configureRoutes() {
@@ -33,7 +33,7 @@ final class Server: ObservableObject {
                             inner = "Hello There :)"
                         }
                         p {
-                            inner = "This is a Swift Web Server"
+                            inner = "This is a Swift Server"
                         }
                         img {
                             src = "https://swift.org/assets/images/swift.svg"
@@ -43,7 +43,7 @@ final class Server: ObservableObject {
             }
         }
         
-        server["/ws"] = websocket(
+        server["/socket"] = websocket(
             text: processIncomingText(session:text:),
             connected: participantConneted(session:),
             disconnected: participantDisconnected(session:)
@@ -66,11 +66,27 @@ final class Server: ObservableObject {
     }
     
     private func processIncomingText(session: WebSocketSession, text: String) {
-        print("Server", text, session.hashValue)
+        guard let data = text.data(using: .utf8) else {
+            return
+        }
+        guard let msg = try? self.decoder.decode(Message.self, from: data) else {
+            return
+        }
+        guard msg.type == .command else {
+            return
+        }
+        let lowerRankParticipants = participants.filter {
+            $0.value.participant.rank > msg.participant.rank
+        }
+        lowerRankParticipants.values.forEach { value in
+            guard let activeSession = participants[value.ws] else {
+                return
+            }
+            activeSession.ws.sendMessage(msg)
+        }
     }
     
     private func participantConneted(session: WebSocketSession) {
-        print("Participant connected ", participants.count, session.hashValue)
         let participant = Participant(rank: participants.count)
         let activeSession = ActiveSession(ws: session, participant: participant)
         participants[session] = activeSession
@@ -79,7 +95,6 @@ final class Server: ObservableObject {
     }
     
     private func participantDisconnected(session: WebSocketSession) {
-        print("Participant Discoonnected ", session.hashValue)
         guard let leavingSession = participants[session] else {
             return
         }
@@ -98,12 +113,5 @@ final class Server: ObservableObject {
             updatedSession.ws.sendMessage(msg)
         }
         participants[session] = nil
-    }
-    
-    private func notifyAllThatNewParticpantHasJoined(_ part: Participant) {
-        let msg = Message(participant: part, type: .update)
-        participants.values.forEach { activeSession in
-            activeSession.ws.sendMessage(msg)
-        }
     }
 }
