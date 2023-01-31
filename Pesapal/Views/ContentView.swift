@@ -11,7 +11,7 @@ import Swifter
 struct ContentView: View {
     @EnvironmentObject private var server: Server
     @StateObject private var appService: AppService = AppService()
-    @SceneStorage("ContentView.selection") private var selection: Int?
+    @State private var selection: Int?
     
     var body: some View {
         NavigationView {
@@ -22,7 +22,10 @@ struct ContentView: View {
                     .tag(2)
             }
             .listStyle(.sidebar)
+            .navigationTitle("Pesapal Dev")
+            #if os(macOS)
             Problem3()
+            #endif
         }
         .environmentObject(appService)
     }

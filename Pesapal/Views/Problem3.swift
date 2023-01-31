@@ -10,8 +10,30 @@ import SwiftUI
 struct Problem3: View {
     @EnvironmentObject private var server: Server
     @EnvironmentObject private var appService: AppService
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var hSizeClass
+    #endif
     
     var body: some View {
+        Group {
+            #if os(iOS)
+            if hSizeClass == .regular {
+                iPadOSmacOSView // iPad
+            } else {
+                iOSView
+            }
+            #elseif os(macOS)
+            iPadOSmacOSView
+                .buttonStyle(.link)
+                .frame(minWidth: 600, minHeight: 400)
+            #endif
+        }
+        .onReceive(server.$isRunning) { isRunning in
+            if isRunning { appService.connectToWebSocket() }
+        }
+    }
+    
+    private var iPadOSmacOSView: some View {
         HStack {
             Spacer()
             serverView
@@ -21,12 +43,26 @@ struct Problem3: View {
             socketView
             Spacer()
         }
-        .buttonStyle(.link)
-        .frame(minWidth: 600, minHeight: 400)
         .navigationTitle(appService.participant?.name ?? "Problem 3: A distributed system")
-        .onReceive(server.$isRunning) { isRunning in
-            if isRunning { appService.connectToWebSocket() }
+    }
+    
+    var iOSView: some View {
+        ScrollView {
+            VStack {
+                serverView
+                Divider()
+                socketView
+                Divider()
+                Group {
+                    Text("You can't open two instances of the same app on iOS. ") +
+                    Text("Therefore, we can't solve the problem here. ") +
+                    Text("However on iPadOS and macOS, ") +
+                    Text("we can have multiple windows open.")
+                }
+                .padding(.horizontal)
+            }
         }
+        .navigationTitle(appService.participant?.name ?? "A distributed system")
     }
     
     var serverView: some View {
