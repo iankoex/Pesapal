@@ -110,9 +110,10 @@ struct Problem3: View {
             }
             
             if problem3ViewModel.isConnected {
-                Button(role: .destructive, action: problem3ViewModel.disconnectFromWebSocket) {
+                Button(action: problem3ViewModel.disconnectFromWebSocket) {
                     Text("Disconnect")
                 }
+                .foregroundColor(.red)
                 
                 Button(action: problem3ViewModel.sendCommand) {
                     Text("Send Command")

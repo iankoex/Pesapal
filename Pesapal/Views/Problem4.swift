@@ -13,9 +13,14 @@ struct Problem4: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                TextField("Enter Operators", text: $problem4ViewModel.text)
-                    .textFieldStyle(.roundedBorder)
-                    .onSubmit(of: .text, problem4ViewModel.processText)
+                if #available(macOS 12.0, iOS 15.0, *) {
+                    TextField("Enter Operators", text: $problem4ViewModel.text)
+                        .textFieldStyle(.roundedBorder)
+                        .onSubmit(of: .text, problem4ViewModel.processText)
+                } else {
+                    TextField("Enter Operators", text: $problem4ViewModel.text)
+                        .textFieldStyle(.roundedBorder)
+                }
                 Button(action: problem4ViewModel.processText) {
                     Text("Submit")
                 }
@@ -33,11 +38,14 @@ struct Problem4: View {
                             Text(entry.text)
                             Text(entry.result)
                         }
-                        .textSelection(.enabled)
                     }
                     Divider()
-                    Text(problem4ViewModel.helpText)
-                        .textSelection(.enabled)
+                    if #available(macOS 12.0, iOS 15.0, *) {
+                        Text(problem4ViewModel.helpText)
+                            .textSelection(.enabled)
+                    } else {
+                        Text(problem4ViewModel.helpText)
+                    }
                     HStack {
                         Spacer()
                     }
