@@ -10,7 +10,8 @@ import Swifter
 
 struct ContentView: View {
     @EnvironmentObject private var server: Server
-    @StateObject private var appService: AppService = AppService()
+    @StateObject private var problem3ViewModel: Problem3ViewModel = Problem3ViewModel()
+    @StateObject private var problem4ViewModel: Problem4ViewModel = Problem4ViewModel()
     @State private var selection: Int?
     
     var body: some View {
@@ -27,7 +28,8 @@ struct ContentView: View {
             Problem3()
             #endif
         }
-        .environmentObject(appService)
+        .environmentObject(problem3ViewModel)
+        .environmentObject(problem4ViewModel)
     }
 }
 

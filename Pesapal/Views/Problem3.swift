@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Problem3: View {
     @EnvironmentObject private var server: Server
-    @EnvironmentObject private var appService: AppService
+    @EnvironmentObject private var problem3ViewModel: Problem3ViewModel
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var hSizeClass
     #endif
@@ -29,7 +29,7 @@ struct Problem3: View {
             #endif
         }
         .onReceive(server.$isRunning) { isRunning in
-            if isRunning { appService.connectToWebSocket() }
+            if isRunning { problem3ViewModel.connectToWebSocket() }
         }
     }
     
@@ -43,7 +43,7 @@ struct Problem3: View {
             socketView
             Spacer()
         }
-        .navigationTitle(appService.participant?.name ?? "Problem 3: A distributed system")
+        .navigationTitle(problem3ViewModel.participant?.name ?? "Problem 3: A distributed system")
     }
     
     var iOSView: some View {
@@ -62,7 +62,7 @@ struct Problem3: View {
                 .padding(.horizontal)
             }
         }
-        .navigationTitle(appService.participant?.name ?? "A distributed system")
+        .navigationTitle(problem3ViewModel.participant?.name ?? "A distributed system")
     }
     
     var serverView: some View {
@@ -96,12 +96,12 @@ struct Problem3: View {
             Image(systemName: "bolt.circle")
                 .imageScale(.large)
                 .font(.largeTitle)
-                .foregroundColor(appService.isConnected ? .green : .red)
+                .foregroundColor(problem3ViewModel.isConnected ? .green : .red)
             
-            if appService.isConnected {
+            if problem3ViewModel.isConnected {
                 HStack {
                     Text("Connected")
-                    if let part = appService.participant {
+                    if let part = problem3ViewModel.participant {
                         Text("Name: \(part.name), Rank: \(part.rank)")
                     }
                 }
@@ -109,24 +109,24 @@ struct Problem3: View {
                 Text("Disconnected")
             }
             
-            if appService.isConnected {
-                Button(role: .destructive, action: appService.disconnectFromWebSocket) {
+            if problem3ViewModel.isConnected {
+                Button(role: .destructive, action: problem3ViewModel.disconnectFromWebSocket) {
                     Text("Disconnect")
                 }
                 
-                Button(action: appService.sendCommand) {
+                Button(action: problem3ViewModel.sendCommand) {
                     Text("Send Command")
                 }
             } else {
-                Button(action: appService.connectToWebSocket) {
+                Button(action: problem3ViewModel.connectToWebSocket) {
                     Text("Connect to Socket")
                 }
                 .disabled(!server.isRunning)
             }
             
-            if appService.isShowingCommand {
+            if problem3ViewModel.isShowingCommand {
                 Text("Excecuting Command from")
-                Text(appService.commandMessage)
+                Text(problem3ViewModel.commandMessage)
             }
         }
     }
@@ -135,5 +135,6 @@ struct Problem3: View {
 struct Problem3_Previews: PreviewProvider {
     static var previews: some View {
         Problem3()
+            .environmentObject(Problem3ViewModel())
     }
 }

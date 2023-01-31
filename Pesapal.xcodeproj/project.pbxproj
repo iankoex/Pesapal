@@ -19,11 +19,14 @@
 		3C4E833E298831B900098BBA /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E833D298831B900098BBA /* Server.swift */; };
 		3C4E834129883D0A00098BBA /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 3C4E834029883D0A00098BBA /* Swifter */; };
 		3C4E83432988469900098BBA /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E83422988469900098BBA /* WebSocket.swift */; };
-		3C4E83452988476D00098BBA /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E83442988476D00098BBA /* AppService.swift */; };
+		3C4E83452988476D00098BBA /* Problem3ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E83442988476D00098BBA /* Problem3ViewModel.swift */; };
 		3C4E834A29884A6800098BBA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E834929884A6700098BBA /* Message.swift */; };
 		3C4E834C29884E4000098BBA /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E834B29884E4000098BBA /* Participant.swift */; };
 		3C4E834E2988523100098BBA /* ActiveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E834D2988523100098BBA /* ActiveSession.swift */; };
 		3C4E835029885C4900098BBA /* WebSocketSession + Extensions .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E834F29885C4900098BBA /* WebSocketSession + Extensions .swift */; };
+		3CA1B3842989804A00995FF0 /* Problem4ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B3832989804A00995FF0 /* Problem4ViewModel.swift */; };
+		3CA1B386298988FC00995FF0 /* HistoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B385298988FC00995FF0 /* HistoryEntry.swift */; };
+		3CC40BBA2989448D00873F67 /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC40BB92989448D00873F67 /* Variable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,11 +62,14 @@
 		3C4E832A2988300900098BBA /* PesapalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PesapalUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3C4E833D298831B900098BBA /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		3C4E83422988469900098BBA /* WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
-		3C4E83442988476D00098BBA /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
+		3C4E83442988476D00098BBA /* Problem3ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem3ViewModel.swift; sourceTree = "<group>"; };
 		3C4E834929884A6700098BBA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		3C4E834B29884E4000098BBA /* Participant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participant.swift; sourceTree = "<group>"; };
 		3C4E834D2988523100098BBA /* ActiveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSession.swift; sourceTree = "<group>"; };
 		3C4E834F29885C4900098BBA /* WebSocketSession + Extensions .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebSocketSession + Extensions .swift"; sourceTree = "<group>"; };
+		3CA1B3832989804A00995FF0 /* Problem4ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Problem4ViewModel.swift; sourceTree = "<group>"; };
+		3CA1B385298988FC00995FF0 /* HistoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryEntry.swift; sourceTree = "<group>"; };
+		3CC40BB92989448D00873F67 /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +180,8 @@
 		3C4E8347298847CA00098BBA /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3C4E83442988476D00098BBA /* AppService.swift */,
+				3C4E83442988476D00098BBA /* Problem3ViewModel.swift */,
+				3CA1B3832989804A00995FF0 /* Problem4ViewModel.swift */,
 				3C4E83422988469900098BBA /* WebSocket.swift */,
 			);
 			path = ViewModel;
@@ -186,6 +193,8 @@
 				3C4E834929884A6700098BBA /* Message.swift */,
 				3C4E834B29884E4000098BBA /* Participant.swift */,
 				3C4E834D2988523100098BBA /* ActiveSession.swift */,
+				3CC40BB92989448D00873F67 /* Variable.swift */,
+				3CA1B385298988FC00995FF0 /* HistoryEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,9 +335,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C4E83452988476D00098BBA /* AppService.swift in Sources */,
+				3C4E83452988476D00098BBA /* Problem3ViewModel.swift in Sources */,
+				3CA1B386298988FC00995FF0 /* HistoryEntry.swift in Sources */,
+				3CC40BBA2989448D00873F67 /* Variable.swift in Sources */,
 				3C22A47D29891C800099BB14 /* Problem3.swift in Sources */,
 				3C4E830F2988300300098BBA /* ContentView.swift in Sources */,
+				3CA1B3842989804A00995FF0 /* Problem4ViewModel.swift in Sources */,
 				3C4E83432988469900098BBA /* WebSocket.swift in Sources */,
 				3C4E835029885C4900098BBA /* WebSocketSession + Extensions .swift in Sources */,
 				3C4E834C29884E4000098BBA /* Participant.swift in Sources */,

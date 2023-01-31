@@ -1,15 +1,14 @@
 //
-//  AppService.swift
+//  Problem3ViewModel.swift
 //  Pesapal
 //
 //  Created by Ian on 30/01/2023.
 //
 
-import Foundation
 import Combine
 import SwiftUI
 
-class AppService: ObservableObject {
+class Problem3ViewModel: ObservableObject {
     @Published private var webSocket: WebSocket = WebSocket()
     @Published var participant: Participant?
     @Published var commandMessage: String = ""
