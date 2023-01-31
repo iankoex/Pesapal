@@ -139,6 +139,7 @@ class Problem4ViewModel: ObservableObject {
     private func insertEntry(_ entry: HistoryEntry) {
         DispatchQueue.main.async {
             withAnimation(.easeInOut) {
+                self.text = ""
                 self.entries.insert(entry, at: 0)
                 self.infoString = entry.result.isEmpty ? entry.text : entry.result
             }

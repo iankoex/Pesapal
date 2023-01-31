@@ -9,12 +9,15 @@ import SwiftUI
 
 struct Problem4: View {
     @EnvironmentObject private var problem4ViewModel: Problem4ViewModel
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var hSizeClass
+    #endif
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 if #available(macOS 12.0, iOS 15.0, *) {
-                    TextField("Enter Operators", text: $problem4ViewModel.text)
+                    TextField("Enter Logic or Initialise Variable", text: $problem4ViewModel.text)
                         .textFieldStyle(.roundedBorder)
                         .onSubmit(of: .text, problem4ViewModel.processText)
                 } else {
@@ -27,9 +30,13 @@ struct Problem4: View {
             }
             .padding([.top, .horizontal])
             .frame(maxWidth: 500)
+            #if os(iOS)
+            .autocapitalization(.none)
+            #endif
             
             Text(problem4ViewModel.infoString ?? "")
                 .padding(.horizontal)
+                .foregroundColor(.orange)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
@@ -53,7 +60,10 @@ struct Problem4: View {
                 .padding([.horizontal, .bottom])
             }
         }
-        .navigationTitle("Boolean logic interpreter")
+        .navigationTitle("Boolean Logic Interpreter")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(hSizeClass == .regular ? .automatic : .inline)
+        #endif
     }
 }
 
