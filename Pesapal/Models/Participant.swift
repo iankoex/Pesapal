@@ -8,7 +8,8 @@
 import Foundation
 
 struct Participant: Codable {
-    var id: UUID
-    var name: String
+    var name: String {
+        "Participant \(rank)"
+    }
     var rank: Int
 }

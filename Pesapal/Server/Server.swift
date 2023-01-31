@@ -71,15 +71,32 @@ final class Server: ObservableObject {
     
     private func participantConneted(session: WebSocketSession) {
         print("Participant connected ", participants.count, session.hashValue)
-        let count = participants.count
-        let participant = Participant(id: UUID(), name: "Participant \(count)", rank: count)
+        let participant = Participant(rank: participants.count)
         let activeSession = ActiveSession(ws: session, participant: participant)
         participants[session] = activeSession
-        notifyAllThatNewParticpantHasJoined(participant)
+        let msg = Message(participant: participant, type: .update)
+        activeSession.ws.sendMessage(msg)
     }
     
     private func participantDisconnected(session: WebSocketSession) {
         print("Participant Discoonnected ", session.hashValue)
+        guard let leavingSession = participants[session] else {
+            return
+        }
+        let lowerRankParticipants = participants.filter {
+            $0.value.participant.rank > leavingSession.participant.rank
+        }
+        lowerRankParticipants.values.forEach { value in
+            guard let activeSession = participants[value.ws] else {
+                return
+            }
+            var part = activeSession.participant
+            part.rank -= 1
+            let updatedSession = ActiveSession(ws: activeSession.ws, participant: part)
+            participants[updatedSession.ws] = updatedSession
+            let msg = Message(participant: updatedSession.participant, type: .update)
+            updatedSession.ws.sendMessage(msg)
+        }
         participants[session] = nil
     }
     

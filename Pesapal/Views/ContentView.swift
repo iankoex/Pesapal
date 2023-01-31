@@ -13,31 +13,68 @@ struct ContentView: View {
     @StateObject private var appService: AppService = AppService()
     
     var body: some View {
-        VStack {
+        HStack {
+            Spacer()
+            serverView
+            Spacer()
+            Divider()
+            Spacer()
+            socketView
+            Spacer()
+        }
+        .frame(minWidth: 600, minHeight: 400)
+        .navigationTitle(appService.participant?.name ?? "Pesapal Dev Challenge")
+    }
+    
+    var serverView: some View {
+        VStack(alignment: .center, spacing: 20) {
+            Text("Server")
+                .font(.title)
             if server.isRunning {
                 Image(systemName: "globe")
                     .imageScale(.large)
                     .font(.largeTitle)
                     .foregroundColor(.accentColor)
-                    .padding()
                 Text("Server is running on port: \(server.port)")
                 Link("Test on Browser", destination: URL(string: "http://localhost:8080")!)
             } else {
-                Button("Start Server") {
-                    server.start()
+                Button(action: server.start) {
+                    Text("Start Server")
                 }
             }
-            
-            Button("Connect to WS Server") {
-                appService.connectToWebSocket()
-            }
-            
-            Button("sendCommand") {
-                appService.sendCommand()
-            }
-            
         }
-        .padding()
+    }
+    
+    var socketView: some View {
+        VStack(alignment: .center, spacing: 20) {
+            Text("Socket")
+                .font(.title)
+            Image(systemName: "bolt.circle")
+                .font(.largeTitle)
+                .foregroundColor(appService.isConnected ? .green : .red)
+            
+            Text(appService.isConnected ? "Connected" : "Disconnected")
+            
+            if let part = appService.participant {
+                Text("Name: \(part.name), Rank: \(part.rank)")
+            }
+            
+            HStack {
+                Button(action: appService.connectToWebSocket) {
+                    Text("Connect to Socket")
+                }
+                
+                Button(role: .destructive, action: appService.disconnectFromWebSocket) {
+                    Text("Disconnect")
+                }
+                .disabled(!appService.isConnected)
+            }
+            
+            Button(action: appService.sendCommand) {
+                Text("Send Command")
+            }
+            .disabled(!appService.isConnected)
+        }
     }
 }
 

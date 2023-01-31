@@ -6,37 +6,15 @@
 //
 
 import Foundation
-import Combine
 
 class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     private lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
     private var websocket: URLSessionWebSocketTask?
     var keepListening = true
-    private var cancellables: [AnyCancellable] = []
     let decoder = JSONDecoder()
     let encoder = JSONEncoder()
     @Published var isConnected: Bool = false
-    @Published var str: String = "" // what is Recieved from server
-    
-    override init() {
-        super.init()
-        $str
-            .dropFirst()
-            .sink(receiveValue: { txt in
-                do {
-                    print("TXT", txt)
-                    let data = txt.data(using: .utf8)
-                    if let data = data {
-                        let msg = try self.decoder.decode(Message.self, from: data)
-                        print("Recived", msg)
-//                        self.msg = msg
-                    }
-                } catch {
-                    print("WebSocket: \(error.localizedDescription)")
-                }
-            })
-            .store(in: &cancellables)
-    }
+    @Published var message: Message? = nil
     
     func connect() async {
         let resourceURL = URL(string: "http://localhost:8080/ws")!
@@ -56,7 +34,7 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
                         self?.listen()
                     }
                 case let .failure(err):
-                    print("WebSocket \(err.localizedDescription)")
+                    print("WebSocket Failure: \(err.localizedDescription)")
                     self?.websocket = nil
                     // try self?.connect()
             }
@@ -65,12 +43,26 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     
     private func on(msg: URLSessionWebSocketTask.Message) {
         switch msg {
-            case let .string(strr):
-                str = strr
+            case let .string(str):
+                recievedString(str)
             case .data:
                 print("Some data Recieved")
             @unknown default:
                 print("Some Unknown Default: from WebSocket")
+        }
+    }
+    
+    private func recievedString(_ str: String) {
+        let data = str.data(using: .utf8)
+        guard let data = data else {
+            return
+        }
+        do {
+            let msg = try self.decoder.decode(Message.self, from: data)
+            self.message = msg
+            print("Recived", msg.participant.rank, msg.type)
+        } catch {
+            print("WebSocket: \(error.localizedDescription)")
         }
     }
     
@@ -80,7 +72,7 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
             let msgString = data.base64EncodedString()
             try await websocket?.send(.string(msgString))
         } catch {
-            print("cws Send Error \(error.localizedDescription)")
+            print("WebSocket Send Error: \(error.localizedDescription)")
         }
     }
     
@@ -94,12 +86,10 @@ class WebSocket: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        print("Connected to cws")
         isConnected = true
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        print("Disconnected from cws")
         isConnected = false
     }
 }
