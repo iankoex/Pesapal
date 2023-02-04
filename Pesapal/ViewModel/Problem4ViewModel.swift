@@ -84,7 +84,7 @@ class Problem4ViewModel: ObservableObject {
         let operatorStrArray = text.matchResult(by: operatorRegex)
         let operatorStr = operatorStrArray[0].trimmed()
         if let finalBool = evaluateBools(beforeBool, bool2: afterBool, using: operatorStr) {
-            let entry = HistoryEntry(text: text, result: "\(finalBool)")
+            let entry = HistoryEntry(text: text, result: "-> \(finalBool)")
             insertEntry(entry)
         }
     }
@@ -182,20 +182,20 @@ class Problem4ViewModel: ObservableObject {
                 • false \n
         Examples:
         AND(&&) Examples
-                true && true // true
-                true && false // false
-                true && !true // false read as true and not true
+                true && true -> true
+                true && false -> false
+                true && !true -> false
         OR(||) Examples
-                true || true // true
-                true || false // true
-                false || false // false
-                false || !false // true
+                true || true -> true
+                true || false -> true
+                false || false -> false
+                false || !false -> true
         Variables Examples
-                let someBool = true // true
-                let someOtherBool = !true // false
-                someBool && true // true, same as true && true
-                !someBool && someOtherBool // false, same as false && false
-                false || !someOtherBool // false, same as false || false
+                let someBool = true -> true
+                let someOtherBool = !true -> false
+                someBool && true -> true
+                !someBool && someOtherBool
+                false || !someOtherBool -> false
         """
 }
 

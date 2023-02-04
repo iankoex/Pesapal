@@ -6,9 +6,9 @@ I have attempted to solve Problem 3 and Problem 4.
 # Installation
 The solutions are in the form of an app that runs on macOS and iOS.
 
-A binarry that is signed for development can be found in the releases tab.
+A binary that is signed for development can be found in the releases tab.
 
-The app was created on `Xcode 14.2 (14C18)` but should be compatible with previous versions of Xcode.
+The app was created on `Xcode 14.2 (14C18)` but should be compatible with previous versions of Xcode. The app runs on macOS v.11 or later and on iOS 14 or later.
 
 First clone the project to your mac. Open `Pesapal.xcodeproj`. On Xcode's sidebar go to Pesapal then Targets > Pesapal > Signing & Capabilities. 
 On Signing & Capabilities create your signing certificate and run the project.
@@ -20,12 +20,12 @@ Once the app is running, it will start a server on port `8080`. Confirm that the
 
 Once the app connects to the server, it will connect to the socket automatically. The different clients are represented by windows of the app. Create a new window by pressing `CMD + N`. The new window should also connect to the socket and will be allocated the next available rank.
 
-A side note for `iOS`: Since we can't create multiple windows of the same app on iPhone, the solution can only be tested on `Mac` or `iPad`. The iOS app will still start a server and connect to the socket.
+A side note for `iOS`: Since we can't create multiple windows of the same app on `iPhone`, the solution can only be tested on `Mac` or `iPad`. The iOS app will still start a server and connect to the socket.
 
 To send commands press the `Send Command` button. Clients with a lower rank will exceute the command by showing: 
 > **Running Commmand from participant x with rank x**
 
-Once a client disconnects (Click on the red `Disconnect` button) the socket promotes the clients accordingly.
+Once a client disconnects (Click on the red `Disconnect` button), the socket promotes the clients accordingly.
 
 The following is a demo with Four particpants: 
 
@@ -34,7 +34,7 @@ The following is a demo with Four particpants:
 # Problem Four: A Boolean logic interpreter
 On the side bar click on the problem four tab.
 
-The view on problem four consists of a textfield and a submit button.
+The view on problem four consists of a textfield and a submit button and a history of the expressions and evaluations excecuted.
 
 ## The Synatx
 The syntax uses the Swift standard syantax for Boolens and Logical operators.
@@ -42,7 +42,7 @@ The syntax uses the Swift standard syantax for Boolens and Logical operators.
 1. `true` for true
 2. `false` for false
 3. `&&` for AND
-4. `\\` for OR
+4. `||` for OR
 5. `!` for NOT
 
 ## Usage
@@ -57,6 +57,3 @@ If you try to evaluate an expression with variable that has never been initialis
 The following is a demo of the same:
 
 [Problem 4 Demo Screen Recording](https://user-images.githubusercontent.com/30172987/216753258-78eb3985-8a0c-40d9-b62e-cdcf0ce2ebd1.mp4)
-
-
-
