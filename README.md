@@ -6,7 +6,7 @@ I have attempted to solve Problem 3 and Problem 4.
 # Installation
 The solutions are in the form of an app that runs on macOS and iOS.
 
-A binary that is signed for development can be found in the releases tab.
+A binary that is signed for development can be found in the releases tab. You will be required to trust the app in > Preferences > Privacy and Security.
 
 The app was created on `Xcode 14.2 (14C18)` but should be compatible with previous versions of Xcode. The app runs on macOS v.11 or later and on iOS 14 or later.
 
